@@ -1,2 +1,2 @@
 
-print(len(' Controle de Câmara '))
+print(len('  Cod  Nome                 Descrição       QTDE.'))
