@@ -1,2 +1,2 @@
 
-print(len('  Cod  Nome                 Descrição       QTDE.'))
+print(len(' Categorias '))

@@ -11,22 +11,23 @@ def cadastrar():
     while True:
         try: 
             print("="*10, 'Cadastro de Produto', "="*9)
-            print('-'*17, 'Tipo', '-'*17)
-            print("1- Pote 1 litro\n2- Pote 2 litros\n3- Picolé\n4- Bombom")
+            print('-'*14, 'Categorias', '-'*14)
+            print("1- Pote 1 litro\n2- Pote 2 litros\n3- Picolé\n4- Bombom\n5- Pote de 5 Litros")
             print('-'*40)
             while True:
-                tipo = int(input("Digite o tipo de Produto: "))
-                if tipo > 4 or tipo < 1:
-                    print()
-                    print('='*8, "Digite valores válidos", '='*8)
+                tipo = int(input("Digite a categoria do produto:"))
+                if tipo > 5 or tipo < 1:
+                    os.system('cls')
+                    print(Fore.LIGHTRED_EX+'='*8, "Digite valores válidos", '='*8+Style.RESET_ALL)
                     continue
                 else:
                     break
-            nome = input("Digite o Nome: ").title()
+            nome = input("Digite o Nome do novo produto: ").title()
             quantidade = 0
             break
         except ValueError:
-            print('='*8, "Digite valores válidos", '='*8)
+            os.system('cls')
+            print(Fore.LIGHTRED_EX+'='*8, "Digite valores válidos", '='*8+Style.RESET_ALL)
             continue
         
     print()
@@ -36,33 +37,35 @@ def cadastrar():
     print("="*10, 'Produto cadastrado!', "="*9)
     print('='*40)
 
-    escolha = input("Deseja cadastrar outro produto:\n[Sim/Não]: ").upper()
-    if escolha in ['SIM', 'S']:
-        cadastrar()
-    else:
-        decisao()
+    while True:
+        escolha = input(f"Você deseja cadastrar outro produto?\n[Sim/Não]: ").upper()
+        if escolha in ['SIM', 'S']:
+            cadastrar()
+        elif escolha in ['N', 'NÃO', 'NAO']:
+            decisao()
+        else:
+            print(Fore.LIGHTRED_EX+'='*8, "Digite valores válidos", '='*8+Style.RESET_ALL)
+            continue
 
 def receber():
     os.system('cls')
-    tipos= {1: 'Potes 1 Litro ', 2:'Potes 2 Litros', 3:'Picolés ', 4:'Bombom'}
+    tipos= {1: 'Potes 1 Litro', 2:'Potes 2 Litros', 3:'Picolés', 4:'Bombom', 5:'Potes 5 litros'}
     for id, descricao in tipos.items():
-        print(Fore.LIGHTGREEN_EX+'='*((49-len(descricao))//2), descricao, '='*((49-len(descricao))//2)+Style.RESET_ALL)
-        sql_comma = f""" SELECT SORVETES.ID_PRODUTO, SORVETES.NOME, TIPO.DESCRICAO, SORVETES.QUANTIDADE 
+        print(Fore.LIGHTBLUE_EX+'='*((60-len(descricao))//2), descricao, '='*((60-len(descricao))//2)+Style.RESET_ALL)
+        sql_comma = f""" SELECT SORVETES.ID_PRODUTO, SORVETES.NOME, SORVETES.QUANTIDADE 
                     FROM SORVETES 
-                    JOIN TIPO ON SORVETES.TIPO = TIPO.ID_TIPO 
                     WHERE SORVETES.TIPO = {id} 
                     ORDER BY SORVETES.NOME"""
         consultor(sql_comma)
-        print('='*49)
+        print('='*60)
         print()
 
 
 def consultor(sql_comma):
     resultado = []
-
     for row in cursor.execute(sql_comma):
         resultado.append(list(row))
-    print(tabulate(resultado, headers=["Cod", "Nome", "Descrição", "QTDE."]))
+    print(tabulate(resultado, headers=["Cod", "Nome", "QTDE."], tablefmt='rounded_grid'))
     return 
 
 def decisao():
