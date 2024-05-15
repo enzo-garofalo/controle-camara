@@ -49,24 +49,88 @@ def cadastrar():
 
 def receber():
     os.system('cls')
-    tipos= {1: 'Potes 1 Litro', 2:'Potes 2 Litros', 3:'Picolés', 4:'Bombom', 5:'Potes 5 litros'}
-    for id, descricao in tipos.items():
-        print(Fore.LIGHTBLUE_EX+'='*((60-len(descricao))//2), descricao, '='*((60-len(descricao))//2)+Style.RESET_ALL)
-        sql_comma = f""" SELECT SORVETES.ID_PRODUTO, SORVETES.NOME, SORVETES.QUANTIDADE 
-                    FROM SORVETES 
-                    WHERE SORVETES.TIPO = {id} 
-                    ORDER BY SORVETES.NOME"""
-        consultor(sql_comma)
-        print('='*60)
-        print()
+    categorias= {1: 'Potes 1 Litro', 
+                 2:'Potes 2 Litros', 
+                 3:'Picolés', 
+                 4:'Bombom', 
+                 5:'Potes 5 litros'}
+    while True:
+        try:
+            print('-'*14, 'Categorias', '-'*14)
+            print("1- Pote 1 litro\n2- Pote 2 litros\n3- Picolé\n4- Bombom\n5- Pote de 5 Litros")
+            print('-'*40)
+            print(Fore.LIGHTGREEN_EX+'===== Digite -1 para voltar ao menu ===='+Style.RESET_ALL)
+            id = int(input("Digite qual categoria chegou: "))
+            os.system('cls')
+            descricao = categorias.get(id)
+            if id == -1:
+                menu()
+            if descricao:
+                print(Fore.LIGHTGREEN_EX + '='*((60-len(descricao))//2), descricao, '='*((60-len(descricao))//2) + Style.RESET_ALL)
+                break
+            else:
+                os.system('cls')
+                print(Fore.LIGHTRED_EX+'='*8, "Digite valores válidos", '='*8+Style.RESET_ALL)
+                continue
+        except ValueError:
+            os.system('cls')
+            print(Fore.LIGHTRED_EX+'='*8, "Digite valores válidos", '='*8+Style.RESET_ALL)
+            continue
+    
+    sql_comma = f""" SELECT ID_PRODUTO, NOME, QUANTIDADE 
+                FROM SORVETES 
+                WHERE TIPO = {id} 
+                ORDER BY NOME"""
+    consultor(sql_comma)
+    print(Fore.LIGHTGREEN_EX+ '='*60 +Style.RESET_ALL)
+    
+    while True:
+        cod_nome = input(f"Digite o código ou nome do produto recém chegado: ")
+        if cod_nome.isdigit():
+            cod_nome = int(cod_nome)
+            apendice = f"WHERE ID_PRODUTO = {cod_nome}"
+        else:
+            cod_nome = cod_nome.title()
+            apendice = f"WHERE NOME = '{cod_nome}' AND TIPO = {id}"
+        
+        sql_comma = f""" SELECT ID_PRODUTO, NOME, QUANTIDADE 
+                FROM SORVETES 
+                {apendice} 
+                ORDER BY NOME"""
 
+        quantidade = consultor(sql_comma)
+
+        if quantidade < 0:
+            print()
+            print(Fore.LIGHTRED_EX+'='*8, "Digite valores válidos", '='*8+Style.RESET_ALL)
+            continue
+        else: 
+            nova_quantidade = int(input("Digite Quantas caixas chegou: "))
+            nova_quantidade += quantidade
+            cursor.execute(f""" UPDATE SORVETES SET QUANTIDADE = {nova_quantidade} {apendice} """)
+            connection.commit()
+        
+        
+        escolha = input(f"\nVocê deseja adicionar outro produto nessa categoria?\n[Sim/Não]: ").upper()
+        if escolha in ['SIM', 'S']:
+            continue
+        elif escolha in ['N', 'NÃO', 'NAO']:
+            receber()
+            break
 
 def consultor(sql_comma):
     resultado = []
     for row in cursor.execute(sql_comma):
         resultado.append(list(row))
-    print(tabulate(resultado, headers=["Cod", "Nome", "QTDE."], tablefmt='rounded_grid'))
-    return 
+    
+    if len(resultado) < 1:
+        print('Produto não existe')
+        quantidade = -1
+    else:
+        quantidade = resultado[0][2]
+        print(tabulate(resultado, headers=["Cod", "Nome", "QTDE."], tablefmt='rounded_grid'))
+    
+    return quantidade
 
 def decisao():
     while True:
