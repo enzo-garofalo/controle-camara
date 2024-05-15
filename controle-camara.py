@@ -14,9 +14,13 @@ def cadastrar():
             print('-'*14, 'Categorias', '-'*14)
             print("1- Pote 1 litro\n2- Pote 2 litros\n3- Picolé\n4- Bombom\n5- Pote de 5 Litros")
             print('-'*40)
+            print(Fore.LIGHTGREEN_EX+'===== Digite -1 para voltar ao menu ===='+Style.RESET_ALL)
             while True:
-                tipo = int(input("Digite a categoria do produto:"))
-                if tipo > 5 or tipo < 1:
+                tipo = int(input("Digite a categoria do produto: "))
+                if tipo == -1:
+                    menu()
+                    return
+                elif tipo > 5 or tipo < 1:
                     os.system('cls')
                     print(Fore.LIGHTRED_EX+'='*8, "Digite valores válidos", '='*8+Style.RESET_ALL)
                     continue
@@ -47,7 +51,7 @@ def cadastrar():
             print(Fore.LIGHTRED_EX+'='*8, "Digite valores válidos", '='*8+Style.RESET_ALL)
             continue
 
-def receber():
+def selecionar_categoria_entrada():
     os.system('cls')
     categorias= {1: 'Potes 1 Litro', 
                  2:'Potes 2 Litros', 
@@ -60,13 +64,12 @@ def receber():
             print("1- Pote 1 litro\n2- Pote 2 litros\n3- Picolé\n4- Bombom\n5- Pote de 5 Litros")
             print('-'*40)
             print(Fore.LIGHTGREEN_EX+'===== Digite -1 para voltar ao menu ===='+Style.RESET_ALL)
-            id = int(input("Digite qual categoria chegou: "))
+            categoria = int(input("Digite qual categoria chegou: "))
             os.system('cls')
-            descricao = categorias.get(id)
-            if id == -1:
+            descricao = categorias.get(categoria)
+            if categoria == -1:
                 menu()
-            if descricao:
-                print(Fore.LIGHTGREEN_EX + '='*((60-len(descricao))//2), descricao, '='*((60-len(descricao))//2) + Style.RESET_ALL)
+            elif descricao:
                 break
             else:
                 os.system('cls')
@@ -77,12 +80,17 @@ def receber():
             print(Fore.LIGHTRED_EX+'='*8, "Digite valores válidos", '='*8+Style.RESET_ALL)
             continue
     
-    sql_comma = f""" SELECT ID_PRODUTO, NOME, QUANTIDADE 
-                FROM SORVETES 
-                WHERE TIPO = {id} 
-                ORDER BY NOME"""
+    return categoria
+
+def entrada():
+    categoria = selecionar_categoria_entrada()
+
+    sql_comma = f""" SELECT S.ID_PRODUTO, S.NOME, T.DESCRICAO,S.QUANTIDADE 
+                     FROM SORVETES S 
+                     JOIN TIPO T ON S.TIPO = T.ID_TIPO
+                     WHERE S.TIPO = {categoria}
+                     ORDER BY S.NOME """
     consultor(sql_comma)
-    print(Fore.LIGHTGREEN_EX+ '='*60 +Style.RESET_ALL)
     
     while True:
         cod_nome = input(f"Digite o código ou nome do produto recém chegado: ")
@@ -93,30 +101,86 @@ def receber():
             cod_nome = cod_nome.title()
             apendice = f"WHERE NOME = '{cod_nome}' AND TIPO = {id}"
         
-        sql_comma = f""" SELECT ID_PRODUTO, NOME, QUANTIDADE 
-                FROM SORVETES 
-                {apendice} 
-                ORDER BY NOME"""
-
+        os.system('cls')
+        sql_comma = f""" SELECT S.ID_PRODUTO, S.NOME, T.DESCRICAO, S.QUANTIDADE 
+                     FROM SORVETES S 
+                     JOIN TIPO T ON S.TIPO = T.ID_TIPO
+                     {apendice}
+                     ORDER BY S.NOME """
         quantidade = consultor(sql_comma)
 
         if quantidade < 0:
-            print()
+            print(Fore.LIGHTRED_EX+'='*8, "Produto Não existe", '='*8+Style.RESET_ALL)
             print(Fore.LIGHTRED_EX+'='*8, "Digite valores válidos", '='*8+Style.RESET_ALL)
             continue
         else: 
+            print(Fore.LIGHTGREEN_EX+'===== Digite -1 se esse o produto estiver incorreto ===='+Style.RESET_ALL)
             nova_quantidade = int(input("Digite Quantas caixas chegou: "))
-            nova_quantidade += quantidade
-            cursor.execute(f""" UPDATE SORVETES SET QUANTIDADE = {nova_quantidade} {apendice} """)
-            connection.commit()
+            if nova_quantidade == -1:
+                entrada()
+                break
+            else:
+                nova_quantidade += quantidade
+                cursor.execute(f""" UPDATE SORVETES SET QUANTIDADE = {nova_quantidade} {apendice} """)
+                consultor(sql_comma)
+                connection.commit()
+                break
+             
+    escolha = input(f"\nVocê Deseja Adicionar Outro Produto a Câmara?\n[Sim/Não]: ").upper()
+    if escolha in ['SIM', 'S']:
+        entrada()
+    else:
+        menu()
+
+def saida():
+    os.system('cls')
+    categorias= { 1: 'Potes 1 Litro', 2:'Potes 2 Litros', 3:'Picolés', 4:'Bombom', 5:'Potes 5 litros' }
+    # PRODUTOS QUE HÁ NA CÂMARA
+    for categoria in categorias.keys():
+        sql_comma = f""" SELECT S.ID_PRODUTO, S.NOME, T.DESCRICAO,S.QUANTIDADE 
+                         FROM SORVETES S 
+                         JOIN TIPO T ON S.TIPO = T.ID_TIPO
+                         WHERE S.TIPO = {categoria} AND S.QUANTIDADE > 0
+                         ORDER BY S.NOME"""
+        consultor(sql_comma)
+    
+    while True:
+        cod_nome = input(f"Digite o código ou nome do produto para pedido: ")
+        if cod_nome.isdigit():
+            cod_nome = int(cod_nome)
+            apendice = f"WHERE ID_PRODUTO = {cod_nome}"
+        else:
+            cod_nome = cod_nome.title()
+            apendice = f"WHERE NOME = '{cod_nome}' AND TIPO = {id}"
         
-        
-        escolha = input(f"\nVocê deseja adicionar outro produto nessa categoria?\n[Sim/Não]: ").upper()
-        if escolha in ['SIM', 'S']:
+        os.system('cls')
+        sql_comma = f""" SELECT S.ID_PRODUTO, S.NOME, T.DESCRICAO, S.QUANTIDADE 
+                     FROM SORVETES S 
+                     JOIN TIPO T ON S.TIPO = T.ID_TIPO
+                     {apendice}
+                     ORDER BY S.NOME """
+
+        quantidade = consultor(sql_comma)
+        if quantidade < 0:
+            print(Fore.LIGHTRED_EX+'='*8, "Produto Não existe", '='*8+Style.RESET_ALL)
+            print(Fore.LIGHTRED_EX+'='*8, "Digite valores válidos", '='*8+Style.RESET_ALL)
             continue
-        elif escolha in ['N', 'NÃO', 'NAO']:
-            receber()
-            break
+        elif quantidade == 0:
+            print(Fore.LIGHTRED_EX+'='*8, "Não há caixas na Câmara", '='*8+Style.RESET_ALL)
+            continue
+        else: 
+            print(Fore.LIGHTGREEN_EX+'===== Digite -1 se esse o produto estiver incorreto ===='+Style.RESET_ALL)
+            nova_quantidade = int(input("Digite Quantas Caixas retirar: "))
+            if nova_quantidade == -1:
+                entrada()
+                break
+            else:
+                nova_quantidade += quantidade
+                cursor.execute(f""" UPDATE SORVETES SET QUANTIDADE = {nova_quantidade} {apendice} """)
+                consultor(sql_comma)
+                connection.commit()
+                break
+
 
 def consultor(sql_comma):
     resultado = []
@@ -124,11 +188,12 @@ def consultor(sql_comma):
         resultado.append(list(row))
     
     if len(resultado) < 1:
-        print('Produto não existe')
         quantidade = -1
     else:
-        quantidade = resultado[0][2]
-        print(tabulate(resultado, headers=["Cod", "Nome", "QTDE."], tablefmt='rounded_grid'))
+        quantidade = resultado[0][3]
+        print(Fore.LIGHTGREEN_EX + '='*80 + Style.RESET_ALL)
+        print(tabulate(resultado, headers=["Cod", "Nome", "Categoria", "QTDE."], tablefmt='rounded_grid'))
+        print(Fore.LIGHTGREEN_EX+ '='*80 +Style.RESET_ALL)
     
     return quantidade
 
@@ -145,6 +210,7 @@ def decisao():
         else:
             print('='*4+" Digite uma opção válida! "+'='*4)
             continue
+        
 def menu():
   os.system('cls')
   while True:
@@ -159,9 +225,9 @@ def menu():
         if escolha == 1:
             cadastrar()
         elif escolha == 2:
-            receber()
+            entrada()
         elif escolha == 3:
-            cadastrar()
+            saida()
         elif escolha == 4:
            print('='*15, 'Até Logo!', '='*14)
            exit()
