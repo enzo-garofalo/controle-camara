@@ -86,8 +86,13 @@ def entrada():
                         WHERE S.TIPO = {categoria}
                         ORDER BY S.NOME """
         consultor(sql_comma)
+        print('='*28,'Digite -1 para voltar','='*29)
+        print(Fore.YELLOW+'='*80+Style.RESET_ALL)
         cod_nome = input(f"Digite o código ou nome do produto recém chegado: ")
-        if cod_nome.isdigit():
+        if cod_nome == '-1':
+            entrada()
+            break
+        elif cod_nome.isdigit():
             cod_nome = int(cod_nome)
             apendice = f"WHERE ID_PRODUTO = {cod_nome}"
         else:
@@ -122,7 +127,13 @@ def entrada():
                 break
             else:
                 nova_quantidade += quantidade
-                att_camara(nova_quantidade, apendice, sql_comma)
+                cursor.execute(f""" UPDATE SORVETES SET QUANTIDADE = {nova_quantidade} {apendice} """)
+                print()
+                print(Fore.YELLOW+ '='*80 +Style.RESET_ALL)
+                print('='*31, 'Câmara Atualizada', '='*30)
+                print(Fore.YELLOW+ '='*80 +Style.RESET_ALL)
+                consultor(sql_comma)
+                connection.commit()
                 break
              
     escolha = input(f"\nVocê Deseja Adicionar Outro Produto a Câmara?\n[Sim/Não]: ").upper()
@@ -139,8 +150,14 @@ def saida():
     consultor_total()
     while True:
         try:
+            print('='*25,'Digite -1 para voltar ao menu','='*24)
+            print(Fore.YELLOW+'='*80+Style.RESET_ALL)
             cod_nome = int(input(f"Digite o código do produto para retirar da câmara: "))
-            apendice = f"WHERE ID_PRODUTO = {cod_nome}"
+            if cod_nome == -1:
+                menu()
+                break 
+            else:
+                apendice = f"WHERE ID_PRODUTO = {cod_nome}"
         except ValueError:
             os.system('cls')
             print(Fore.YELLOW+ '='*80 +Style.RESET_ALL)
@@ -179,7 +196,7 @@ def saida():
                 try:
                     quantidade_retirada = int(input("Digite Quantas Caixas retirar: "))
                     if quantidade_retirada == -1:
-                        entrada()
+                        saida()
                         break
                     elif quantidade_retirada > quantidade:
                         os.system('cls')
@@ -195,7 +212,13 @@ def saida():
                     continue
            
         quantidade -= quantidade_retirada
-        att_camara(quantidade, apendice, sql_comma)
+        cursor.execute(f""" UPDATE SORVETES SET QUANTIDADE = {quantidade} {apendice} """)
+        print()
+        print(Fore.YELLOW+ '='*80 +Style.RESET_ALL)
+        print('='*31, 'Câmara Atualizada', '='*30)
+        print(Fore.YELLOW+ '='*80 +Style.RESET_ALL)
+        consultor(sql_comma)
+        connection.commit()
         cursor.execute(f""" INSERT INTO PEDIDO (ID_PRODUTO, QUANTIDADE) 
                             VALUES ({cod_nome}, {quantidade_retirada}) """)
         connection.commit()
@@ -242,16 +265,6 @@ def consultor(sql_comma):
         print(Fore.YELLOW+ '='*80 +Style.RESET_ALL)
     
     return quantidade
-
-def att_camara(qtde, apendice, sql_comma):
-    cursor.execute(f""" UPDATE SORVETES SET QUANTIDADE = {qtde} {apendice} """)
-    print()
-    print(Fore.YELLOW+ '='*80 +Style.RESET_ALL)
-    print('='*31, 'Câmara Atualizada', '='*30)
-    print(Fore.YELLOW+ '='*80 +Style.RESET_ALL)
-    consultor(sql_comma)
-    connection.commit()
-    return
 
 def decisao():
     while True:
