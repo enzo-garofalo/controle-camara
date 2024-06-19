@@ -1,0 +1,26 @@
+{% extends "template.html" %}
+{% block conteudo %}
+    <div class="content">
+        {% for chave, info in sorvetes.items() %}
+        <a>{{ chave }}</a>
+        <table class="table table-hover table-responsive table-bordered">
+            <thead class="thead-default">
+                <tr>
+                    <th>Nome</th>
+                    <th>Quantidade</th>
+                    <th>Data de Chegada</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ info[0] }}</td>
+                    <td>{{ info[1] }}</td>
+                    <td>{{ info[2] }}</td>
+                </tr>
+            </tbody>
+        </table>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}
