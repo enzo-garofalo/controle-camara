@@ -1,5 +1,0 @@
-função saída()
-a função deve:
-- Imprimir os produtos que estão na câmara.
-- A funcionalidade deve permitir que o usuário escolha uma série de produtos para retirar da câmara.
-- Exibir um relatório final com o pedido de retirada da câmara.
