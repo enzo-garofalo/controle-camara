@@ -1,26 +1,30 @@
 {% extends "template.html" %}
 {% block conteudo %}
     <div class="content">
-        <a class="btn btn-primary" href="">Chegada</a>
-        <a class="btn btn-danger" href="">Saída</a>
-
-        <table class="table table-hover table-striped table-responsive table-bordered">
-            <thead class="thead-default">
+        <a class="btn btn-chegada btn-hover" href="{{ url_for('chegada') }}">Chegada</a>
+        <a class="btn btn-saida btn-hover" href="">Saída</a>
+        {% for chave, produtos in lista.items() %}
+        <table class="table table-hover table-striped table-responsive table-bordered table-custom-border">
+            <thead class="thead-custom">
                 <tr>
-                    <th>Nome</th>
-                    <th>Quantidade</th>
-                    <th>Data de Chegada</th>
+                    <th colspan="3" class="table-title">{{ chave }}</th>
+                </tr>   
+                <tr class="tr-custom">
+                    <th class="col-4">Nome</th>
+                    <th class="col-4">Quantidade</th>
+                    <th class="col-4">Data de Chegada</th>
                 </tr>
             </thead>
             <tbody>
-                {% for sorvete in sorvetes %}
+                {% for informacoes in produtos  %}
                 <tr>
-                    <td>{{ sorvete.nome }}</td>
-                    <td>{{ sorvete.quantidade }}</td>
-                    <td>{{ sorvete.data }}</td>
+                    <td class="nome">{{ informacoes[0] }}</td>
+                    <td>{{ informacoes[1] }}</td>
+                    <td>{{ informacoes[2] }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        {% endfor %}
     </div>
 {% endblock %}

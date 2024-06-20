@@ -1,9 +1,47 @@
 body {
     padding-top: 10px;
+    background-color: #f4f4f8;
+    font-family: "Manrope", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Alinha verticalmente os elementos ao centro */
+    margin-bottom: 10px;
+    border-bottom: 1px solid;
+}
+
+.title h1, .title h2 {
+    margin: 0; /* Remove margens padrões */
+}
+
 
 .btn {
     margin-bottom: 10px;
+}
+.btn-chegada{
+    background-color: #81f495;
+    color: #14342b;
+    font-weight: bold;
+    border-color: #14342b;
+}
+.btn-chegada:hover{
+    color: #14342b;
+}
+.btn-saida{
+    background-color: #FFC9C9;
+    font-weight: bold;
+    color: #E03131;
+    border-color: #E03131;
+}
+.btn-saida:hover{
+    color: #E03131;
+}
+.btn-hover:hover{
+    box-shadow: 2px 2px 2px rgba(102, 102, 102, 0.795);
 }
 
 .container {
@@ -16,53 +54,96 @@ body {
     width: 40%;
     margin: auto;
 }
-
-figcaption {
-    text-align: center;
-    margin: 3px auto;
-}
-
-.fileContainer {
-    overflow: hidden;
-    position: relative;
-}
-
-.fileContainer [type=file] {
-    cursor: pointer;
-    display: block;
-    font-size: 999px;
-    filter: alpha(opacity=0);
-    min-height: 100%;
-    min-width: 100%;
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    text-align: right;
-    top: 0;
+table{
+    background-color: #fdfdfd;
 }
 
 td {
     text-align: center;
+    font-weight: 800;
+    font-size: 20px;
 }
+th{
+    color: white;
 
-.formularioJogo {
-    display: flex;
 }
-
-.formularioImagem {
-    margin-right: 16px
-}
-
 .buttons {
     margin-top: 16px
 }
-
-.inputBox {
-    width: 700px;
+.table-title {
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: medium;
+    padding: 10px 0;
+}
+.table-custom-border {
+    border-color: #343a40;
+    box-shadow: 2px 2px rgba(102, 102, 102, 0.795); 
+    border-radius: 1px; 
+    overflow: hidden;
 }
 
-.inputsJogo {
-    width: 100%;
-    margin-left: 1em;
-    margin-bottom: 1em;
+.table-custom-border th,
+.table-custom-border td {
+    border-color: #343a40; /* Cor escura para as bordas das células */
+}
+
+.table-custom-border thead th {
+    border-bottom: 2px solid #343a40; /* Cor escura e espessura para a borda inferior do cabeçalho */
+}
+
+.table-custom-border tbody tr {
+    border-bottom: 1px solid #343a40; /* Cor escura para a borda inferior das linhas do corpo */
+}
+
+.table-custom-border tbody tr td {
+    border-top: 1px solid #343a40; /* Cor escura para a borda superior das células */
+    border-right: 1px solid #343a40; /* Cor escura para a borda direita das células */
+}
+.table-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.25em; /* Ajuste conforme necessário */
+    padding: 10px 0;
+}
+.thead-custom{
+    background-color: #2081c3;
+}
+.tr-custom{
+    background-color: #61b0e5;
+}
+.nome{
+    text-align: left;
+}
+.btn-containers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn-containers button {
+    margin-bottom: 40px;
+    font-size: 40px;
+    color: white;
+    width: 600px; /* Largura dos botões */
+}
+.btn-containers button:hover {
+    color: white;
+    box-shadow: 3px 3px rgba(102, 102, 102, 0.795);/* Largura dos botões */
+}
+.btn-litro{
+    background-color: #2f9e44;
+}
+.btn-Dlitro{
+    background-color: #6741d9;
+}
+.btn-Clitro{
+    background-color: #e8590c;
+}
+.btn-picole{
+    background-color: #0c8599;
+}
+.btn-cop{
+    background-color: #fab005;
 }
