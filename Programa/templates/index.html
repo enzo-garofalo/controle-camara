@@ -1,8 +1,8 @@
 {% extends "template.html" %}
 {% block conteudo %}
     <div class="content">
-        <a class="btn btn-chegada btn-hover" href="{{ url_for('chegada') }}">Chegada</a>
-        <a class="btn btn-saida btn-hover" href="">Saída</a>
+        <a class="btn btn-chegada btn-hover" href="{{ url_for('redireciona', funcao='Entrada') }}">Chegada</a>
+        <a class="btn btn-saida btn-hover" href="{{ url_for('redireciona', funcao='Retirada')}}">Retirada</a>
         {% for chave, produtos in lista.items() %}
         <table class="table table-hover table-striped table-responsive table-bordered table-custom-border">
             <thead class="thead-custom">
