@@ -10,7 +10,7 @@ class Produto():
         self.data = data
 
 produto1 = Produto('Leitinho Trufado', 2, 'Pote 1 Litro', '10/10/24')
-produto2 = Produto('Chocolate c/ avelã', 4, 'Pote 1 Litro', '10/10/24')
+produto2 = Produto('Chocolate c/ avelã', 0, 'Pote 1 Litro', '10/10/24')
 produto7 = Produto('Leitinho c/ Frutas Vermelhas', 4, 'Pote 1 Litro', '10/10/24')
 produto7 = Produto('Mousseee', 4, 'Pote 1 Litro', '10/10/24')
 produto3 = Produto('Leitinho Trufado', 6, 'Pote 2 Litros', '10/10/24')
@@ -42,4 +42,4 @@ def funcionalidade():
     produtos = lista.get(value)
     nova_lista = {}
     nova_lista[value] = produtos
-    return render_template('index.html', titulo=value+funcao, lista=nova_lista)
+    return render_template('funcionalidade.html', titulo=value+funcao, lista=nova_lista, funcao=funcao)

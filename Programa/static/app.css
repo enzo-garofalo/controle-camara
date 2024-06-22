@@ -31,7 +31,7 @@ a:hover {
     margin-bottom: 10px;
 }
 .btn-chegada{
-    background-color: #81f495;
+    background-color: #46b859;
     color: #14342b;
     font-weight: bold;
     border-color: #14342b;
@@ -156,4 +156,17 @@ form{
 }
 .btn-cop{
     background-color: #fab005;
+}
+
+.btn-footer button {
+    margin-bottom: 40px;
+    font-size: 20px;
+    color: white;
+    text-align: center;
+    align-items: center;
+    width: 300px; /* Largura dos botões */
+}
+.btn-footer button:hover {
+    color: white;
+    box-shadow: 3px 3px rgba(102, 102, 102, 0.795);/* Largura dos botões */
 }
