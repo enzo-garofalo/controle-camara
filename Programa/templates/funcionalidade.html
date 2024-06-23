@@ -20,14 +20,14 @@
                 {% for informacoes in produtos  %}
                 <tr>
                     <td class="nome">{{ informacoes[0] }}</td>
-                    <td>{{ informacoes[1] }}</td>
+                    <td id="qtd">{{ informacoes[1] }}</td>
                     {% if funcao == 'Retirada' %}
                         <td>{{ informacoes[2] }}</td>
                     {% endif %}
                     <td>
                         <div class="btn-group" role="group">
-                            <a href="#" class="btn btn-info btn-lg">+</a>
-                            <a href="#" class="btn btn-danger btn-lg">-</a>
+                            <button class="btn btn-info btn-lg" id="aumentar">+</button>
+                            <button class="btn btn-danger btn-lg" id="diminuir">-</button>
                         </div>
                     </td>
                 </tr>
@@ -36,7 +36,7 @@
         {% endfor %}
         </table>
         <div class="btn-footer">
-            <a href="{{ url_for('redireciona') }}">
+            <a href="{{ url_for('index') }}">
                 <button class="btn btn-info  btn-lg btn-block mb-2">
                     Confirmar
                 </button>
