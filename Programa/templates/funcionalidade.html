@@ -1,17 +1,18 @@
 {% extends "template.html" %}
 {% block conteudo %}
-    <div class="content">
+    <div class="content" data-funcao="{{ funcao }}">
         {% for chave, produtos in lista.items() %}
         <table class="table table-hover table-striped table-responsive table-bordered table-custom-border">
             <thead class="thead-custom">
                 <tr>
-                    <th colspan="{% if funcao == 'Retirada' %}4{% else %}3{% endif %}" class="table-title">{{ chave }}</th>
+                    <th colspan="{% if funcao == 'Retirada' %}5{% else %}3{% endif %}" class="table-title">{{ chave }}</th>
                 </tr>   
                 <tr class="tr-custom">
                     <th class="col-4">Nome</th>
                     <th class="col-4">Quantidade</th>
                     {% if funcao == 'Retirada' %}
                         <th class="col-4">Data de Chegada</th>
+                        <th class="col-4">Retirar</th>
                     {% endif %}
                     <th class="col-4">Ações</th>
                 </tr>
@@ -20,16 +21,15 @@
                 {% for informacoes in produtos  %}
                 <tr>
                     <td class="nome">{{ informacoes[0] }}</td>
-                    <td id="qtd">{{ informacoes[1] }}</td>
+                    <td id="qtd-{{ loop.index }}">{{ informacoes[1] }}</td>
                     {% if funcao == 'Retirada' %}
                         <td>{{ informacoes[2] }}</td>
+                        <td id="retirar-{{ loop.index }}">0</td>
                     {% endif %}
                     <td>
                         <div class="btn-group" role="group">
-
-                            <button id="adicionar" class="btn btn-info btn-lg">+</button>
-                            <button id="remover" class="btn btn-danger btn-lg">-</button>
-
+                            <button class="btn btn-info btn-lg adicionar" data-index="{{ loop.index }}">+</button>
+                            <button class="btn btn-danger btn-lg remover" data-index="{{ loop.index }}">-</button>
                         </div>
                     </td>
                 </tr>
