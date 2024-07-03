@@ -1,12 +1,10 @@
 from flask import render_template, redirect, request, session
 from main import app
-from collections import defaultdict
-from View.models import sorvetes, lista
+from .List import lista, sorvetes
 
 @app.route('/')
 def index():
-
-    return render_template('index.html', titulo='Produtos na Câmara', sorvetes = sorvetes, lista=lista)
+    return render_template('index.html', titulo='Produtos na Câmara', sorvetes=sorvetes, lista=lista)
 
 @app.route('/redireciona')
 def redireciona():
