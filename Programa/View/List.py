@@ -1,25 +1,31 @@
-from collections import defaultdict
+from sorvetes_para_banco import produtos
 
-class Produto():
-    def __init__(self, nome, quantidade, tipo, data):
-        self.nome = nome
-        self.quantidade = quantidade
-        self.tipo = tipo
-        self.data = data
+class Produto:
+    produtos = []
+    def __init__(self, nome, tipo):
+        self._nome = nome
+        self._tipo = tipo
+        self._qtd = 0
 
-produto1 = Produto('Leitinho Trufado', 2, 'Pote 1 Litro', '10/10/24')
-produto2 = Produto('Chocolate c/ avelã', 0, 'Pote 1 Litro', '10/10/24')
-produto7 = Produto('Leitinho c/ Frutas Vermelhas', 4, 'Pote 1 Litro', '10/10/24')
-produto7 = Produto('Mousseee', 4, 'Pote 1 Litro', '10/10/24')
-produto3 = Produto('Leitinho Trufado', 6, 'Pote 2 Litros', '10/10/24')
-produto4 = Produto('Morango C/ Chocolate', 2, 'Pote 2 Litros', '10/10/24')
-produto5 = Produto('Creme', 2, 'Pote 5 Litros', '10/10/24')
-produto6 = Produto('Três Chocolates', 2, 'Pote 5 Litros', '10/10/24')
+        Produto.produtos.append(self)
+    def __str__(self):
+        return f'Nome: {self._nome}\n'\
+               f'     Tipo: {self._tipo}\n'\
+               f'     Qtd:  {self._qtd}\n'\
+               '-----------------------------'
+    @classmethod
+    def consultar_produto(cls):
+        for produto in cls.produtos:
+            print(produto)
 
-sorvetes = [produto1, produto2, produto3, produto4, produto5, produto6, produto7]
+cont = 0
+for tipo, valores in produtos.items():
+    for nome in valores:
+        cont += 1
+        obj = Produto(nome, tipo)
 
-lista = defaultdict(list)
-for sorvete in sorvetes:
-    lista[sorvete.tipo].append([sorvete.nome, sorvete.quantidade, sorvete.data])
+Produto.consultar_produto()
+print(cont)
 
-lista = dict(lista)
+lista= Produto.produtos
+
