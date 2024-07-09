@@ -1,6 +1,6 @@
 from flask import render_template, redirect, request, session
 from main import app
-from .List import lista, sorvetes
+from models.List import lista, sorvetes
 
 @app.route('/')
 def index():

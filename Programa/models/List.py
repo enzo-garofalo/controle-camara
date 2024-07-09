@@ -1,4 +1,5 @@
 from sorvetes_para_banco import produtos
+from main import db
 
 class Produto:
     produtos = []
@@ -18,14 +19,15 @@ class Produto:
         for produto in cls.produtos:
             print(produto)
 
-cont = 0
+# cont = 0
 for tipo, valores in produtos.items():
     for nome in valores:
-        cont += 1
+        # cont += 1
         obj = Produto(nome, tipo)
 
-Produto.consultar_produto()
-print(cont)
+# Produto.consultar_produto()
+# print(cont)
 
 lista= Produto.produtos
+print(len(lista))
 

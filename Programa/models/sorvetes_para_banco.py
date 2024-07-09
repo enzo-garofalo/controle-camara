@@ -25,6 +25,10 @@ produtos = {
              'Especiais - Chocolate Maltado', 'Especiais - Delicielo De Avelã', 'Máximo - Baunilha', 'Máximo - Cookies Branco', 
              'Abacaxi Suíço', 'Iorgute Com Amarena', 'Creme De Avelã'], 
 
+'Copinhos': ['Chocolate c/ pedaços', 'Chocolate Branco C/ Cookies', 'Chocolate Maltado', 'Morango do Nordeste', 'Menta Flocada',
+             'Leitinho Rochê', 'Leitinho Trufado', 'Iorgute C/ Amarena', 'Açaí C/ Leitinho', 'Tentação de Leitinho', 'Unicórnio',
+             'Light - Creme Mesclado com Marácujá', 'Light - Leitinho Trufado'],
+
 'Bombom':   ['Baunilha', 'Chocolate Branco', 'Brigadeiro', 'Mousse De Chocolate', 'Pistache', 
              'Chocolate Maltado']
 }
