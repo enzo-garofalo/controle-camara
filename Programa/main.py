@@ -1,13 +1,13 @@
 from flask import Flask
-# from flask_sqlalchemy import SQLAlchemy
+import oracledb
+
 
 app = Flask(__name__)
 app.secret_key = '1234'
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'oracle+cx_oracle://username:password@hostname:port/servicename'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# db = SQLAlchemy(app)
+connection = oracledb.connect(user='ENZODEV', password='1234', dsn='localhost:1521/XEPDB1')
+cursor = connection.cursor()
 
 from models.views import * 
 

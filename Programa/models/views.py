@@ -1,10 +1,18 @@
 from flask import render_template, redirect, request, session
-from main import app
-from models.List import lista, sorvetes
+from main import app, cursor, connection
+from collections import defaultdict
+
+lista = defaultdict(list)
+
+for sorvete in cursor.execute(""" SELECT nome, tipo, qtd, data_de_chegada FROM PRODUTOS_SERGEL WHERE QTD > 0  """):
+    nome, tipo, qtd, data_de_chegada = sorvete
+    data_formatada = data_de_chegada.strftime('%d/%m/%Y')
+    lista[tipo].append([nome, qtd, data_formatada])
+lista = dict(lista)
 
 @app.route('/')
 def index():
-    return render_template('index.html', titulo='Produtos na Câmara', sorvetes=sorvetes, lista=lista)
+    return render_template('index.html', titulo='Produtos na Câmara', lista=lista)
 
 @app.route('/redireciona')
 def redireciona():
