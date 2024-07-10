@@ -2,7 +2,12 @@ import oracledb
 connection = oracledb.connect(user='ENZODEV', password='1234', dsn='localhost:1521/XEPDB1')
 cursor = connection.cursor()
 
-sql_comma = """ SELECT T.DESCRICAO, S.NOME FROM SORVETES S JOIN TIPO T ON T.ID_TIPO = S.TIPO """ 
+sql_comma = \
+          """ 
+          SELECT T.DESCRICAO, S.NOME 
+          FROM SORVETES S 
+            JOIN TIPO T ON T.ID_TIPO = S.TIPO 
+          """ 
 produtos = {}
 
 for sorvete in cursor.execute(sql_comma):

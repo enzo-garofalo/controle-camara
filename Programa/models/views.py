@@ -6,7 +6,8 @@ data_de_att = ultima_att()
 
 @app.route('/')
 def index():
-    lista = consultor()
+    apendice = """ WHERE QTD > 0"""
+    lista = consultor(apendice)
     return render_template('index.html', titulo='Produtos na Câmara', lista=lista, ultima_att= data_de_att)
 
 @app.route('/redireciona')
@@ -17,10 +18,12 @@ def redireciona():
 
 @app.route('/funcionalidade', methods=['POST', ])
 def funcionalidade():
-    lista = consultor()
     value = request.form['valor']
     funcao = session.get('funcao')
-    produtos = lista.get(value)
-    nova_lista = {}
-    nova_lista[value] = produtos
-    return render_template('funcionalidade.html', titulo=value, lista=nova_lista, funcao=funcao, ultima_att= data_de_att)
+    print(funcao)
+    if funcao == 'Retirada':
+        apendice = f""" WHERE QTD > 0 AND TIPO = '{value}'"""
+    else:
+        apendice = f""" WHERE QTD >= 0 AND TIPO = '{value}'"""
+    lista = consultor(apendice)
+    return render_template('funcionalidade.html', titulo=value, lista=lista, funcao=funcao, ultima_att= data_de_att)

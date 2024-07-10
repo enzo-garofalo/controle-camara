@@ -1,12 +1,13 @@
 from main import cursor
 from collections import defaultdict
 
-def consultor():
+def consultor(apendice):
     comma = \
-        """ 
+        f""" 
         SELECT nome, tipo, qtd, data_de_chegada 
         FROM PRODUTOS_SERGEL 
-        WHERE QTD > 0  
+        {apendice}
+        ORDER BY tipo, nome
         """
     
     lista = defaultdict(list)
