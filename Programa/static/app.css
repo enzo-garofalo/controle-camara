@@ -69,9 +69,10 @@ table{
 td {
     text-align: center;
     font-weight: 800;
-    font-size: 25px;
-}
+   font-size: 25px;
+} 
 th{
+    font-size: 20px;
     color: white;
 
 }
