@@ -172,3 +172,39 @@ form{
     color: white;
     box-shadow: 3px 3px rgba(102, 102, 102, 0.795);/* Largura dos botões */
 }
+.input-number{
+  width: 80px;
+  padding: 0 12px;
+  vertical-align: top;
+  text-align: center;
+  outline: none
+}
+.input-number,
+.input-number-decrement,
+.input-number-increment{
+  border: 1px solid #ccc;
+  height: 40px;
+  user-select: none
+}
+
+.input-number-decrement,
+.input-number-increment{
+  display: inline-block;
+  width: 30px;
+  line-height: 38px;
+  color: #fffcfc;
+  font-size: 30px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+.input-number-decrement{
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  background-color: #ef3e36;
+}
+.input-number-increment{
+  background-color: #094074;
+  border-left: none;
+  border-radius: 0 4px 4px 0
+}

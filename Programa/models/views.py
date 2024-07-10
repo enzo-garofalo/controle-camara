@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, session
+from flask import render_template, redirect, request, session, url_for
 from main import app
 from .read import consultor, ultima_att
 
@@ -35,3 +35,8 @@ def funcionalidade():
                     """
     lista = consultor(apendice)
     return render_template('funcionalidade.html', titulo=value, lista=lista, funcao=funcao, ultima_att= data_de_att)
+
+@app.route('/atualiza', methods=['POST', ])
+def atualiza():
+    
+    return redirect(url_for('index'))

@@ -1,57 +1,56 @@
 {% extends "template.html" %}
 {% block conteudo %}
     <div class="content" data-funcao="{{ funcao }}">
-        {% for chave, produtos in lista.items() %}
-        <table class="table table-hover table-striped table-responsive table-bordered table-custom-border">
-            <thead class="thead-custom">
-                <tr>
-                    <th colspan="{% if funcao == 'Retirada' %}5{% else %}3{% endif %}" class="table-title">{{ chave }}</th>
-                </tr>   
-                <tr class="tr-custom">
-                    <th class="col-4">Nome</th>
-                    <th class="col-4">Quantidade</th>
-                    {% if funcao == 'Retirada' %}
-                        <th class="col-4">Data de Chegada</th>
-                        <th class="col-4">Retirar</th>
-                    {% endif %}
-                    <th class="col-4">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for informacoes in produtos  %}
-                    {% if funcao == 'Retirada' and informacoes[1] == 0 %}
-
-                    {% else %}
+        <form action="{{ url_for('atualiza') }}" method="post">
+            {% for chave, produtos in lista.items() %}
+            <table class="table table-hover table-striped table-responsive table-bordered table-custom-border">
+                <thead class="thead-custom">
                     <tr>
-                        <td class="nome">{{ informacoes[0] }}</td>
-                        <td id="qtd-{{ loop.index }}">{{ informacoes[1] }}</td>
+                        <th colspan="{% if funcao == 'Retirada' %}5{% else %}3{% endif %}" class="table-title">
+                            {{ chave }}
+                        </th>
+                    </tr>   
+                    <tr class="tr-custom">
+                        <th class="col-4">Nome</th>
+                        <th class="col-4">Quantidade</th>
                         {% if funcao == 'Retirada' %}
-                            <td>{{ informacoes[2] }}</td>
-                            <td id="retirar-{{ loop.index }}">0</td>
+                            <th class="col-4">Data de Chegada</th>
+                            <th class="col-4">Retirar</th>
                         {% endif %}
-                        <td>
-                            <div class="btn-group" role="group">
-                                <button class="btn btn-info btn-lg adicionar" data-index="{{ loop.index }}">+</button>
-                                <button class="btn btn-danger btn-lg remover" data-index="{{ loop.index }}">-</button>
-                            </div>
-                        </td>
                     </tr>
-                    {% endif %}
-                {% endfor %}
-            </tbody>
-        {% endfor %}
-        </table>
-        <div class="btn-footer">
-            <a href="{{ url_for('index') }}">
+                </thead>
+                <tbody>
+                    {% for informacoes in produtos  %}
+                        <tr>
+                            <td class="nome">{{ informacoes[0] }}</td>
+                            <td>
+                                <span class="input-number-decrement">–</span>
+                                <input class="input-number" type="text" value="{{ informacoes[1] }}" min="0" max="10">
+                                <span class="input-number-increment">+</span>
+                            </td>
+                            {% if funcao == 'Retirada' %}
+                                <td>
+                                    {{ informacoes[2] }}
+                                </td>
+                                <td id="retirar-{{ loop.index }}">
+                                    0
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            {% endfor %}
+            </table>
+            <div class="btn-footer">
                 <button class="btn btn-info  btn-lg btn-block mb-2">
                     Confirmar
                 </button>
-            </a>
-            <a href="{{ url_for('redireciona', funcao=funcao) }}">
-                <button class="btn btn-danger  btn-lg btn-block mb-2">
-                    Voltar
-                </button>
-            </a>
-        </div>
+                <a href="{{ url_for('redireciona', funcao=funcao) }}">
+                    <button class="btn btn-danger  btn-lg btn-block mb-2">
+                        Voltar
+                    </button>
+                </a>
+            </div>
+        </form>
     </div>
 {% endblock %}
