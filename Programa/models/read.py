@@ -4,7 +4,7 @@ from collections import defaultdict
 def consultor(apendice):
     comma = \
         f""" 
-        SELECT nome, tipo, qtd, data_de_chegada 
+        SELECT nome, tipo, qtd, data_de_chegada, codigo 
         FROM PRODUTOS_SERGEL 
         {apendice}
         ORDER BY tipo, nome
@@ -12,9 +12,9 @@ def consultor(apendice):
     
     lista = defaultdict(list)
     for sorvete in cursor.execute(comma):
-        nome, tipo, qtd, data_de_chegada = sorvete
+        nome, tipo, qtd, data_de_chegada, codigo = sorvete
         data_formatada = data_de_chegada.strftime('%d/%m/%Y')
-        lista[tipo].append([nome, qtd, data_formatada])
+        lista[tipo].append([nome, qtd, data_formatada, codigo])
     lista = dict(lista)
     return lista
 
