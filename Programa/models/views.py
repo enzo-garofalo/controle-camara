@@ -1,6 +1,7 @@
 from flask import render_template, redirect, request, session, url_for
 from main import app
 from .read import consultor, ultima_att
+from .update import update
 
 @app.route('/')
 def index():
@@ -38,5 +39,14 @@ def funcionalidade():
 
 @app.route('/atualiza', methods=['POST', ])
 def atualiza():
+    codigos = request.form.getlist('cod')
+    quatidades = request.form.getlist('qtd')
+    quatidades_retiradas = request.form.getlist('qtd-retirada')
     
+    produtos = {}
+    for cod, qtd in zip(codigos, quatidades):
+        produtos[cod] = qtd
+    
+    update(produtos)
+        
     return redirect(url_for('index'))

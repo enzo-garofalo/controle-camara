@@ -1,8 +1,7 @@
 from base_de_dados import produtos
 
 from datetime import date
-data = date.today()
-data = data.strftime("%x")
+data = date.today().strftime("%d-%m-%y")
 
 import oracledb
 connection = oracledb.connect(user='ENZODEV', password='1234', dsn='localhost:1521/XEPDB1')

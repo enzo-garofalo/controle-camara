@@ -1,7 +1,10 @@
 {% extends "template.html" %}
 {% block conteudo %}
     <div class="content" data-funcao="{{ funcao }}">
-        <form action="{{ url_for('atualiza') }}" method="post">
+        <form action="{{ url_for('atualiza', funcao=funcao) }}" method="post">
+            {% if not lista %}
+                <h1>Não há produtos - {{ titulo }} - na câmara</h1>
+            {% endif %}
             {% for chave, produtos in lista.items() %}
             <table class="table table-hover table-striped table-responsive table-bordered table-custom-border">
                 <thead class="thead-custom">
@@ -11,22 +14,23 @@
                         </th>
                     </tr>   
                     <tr class="tr-custom">
-                        <th >Nome</th>
-                        <th >Quantidade</th>
+                        <th class="col-3">Nome</th>
+                        <th class="col-3">Quantidade</th>
                         {% if funcao == 'Retirada' %}
-                            <th >Data de Chegada</th>
-                            <th >Retirar</th>
+                            <th class="col-3">Data de Chegada</th>
+                            <th class="col-3">Retirar</th>
                         {% endif %}
                     </tr>
                 </thead>
                 <tbody>
                     {% for informacoes in produtos  %}
                         <tr>
+                            <input type="hidden" value="{{informacoes[3]}}" name="cod">
                             <td class="nome">{{ informacoes[0] }}</td>
                             <td>
                                 {% if funcao == 'Entrada' %}
                                     <span class="input-number-decrement">–</span>
-                                    <input class="input-number" type="text" value="{{ informacoes[1] }}" min="0" max="10">
+                                    <input class="input-number" type="text" value="{{ informacoes[1] }}" min="0" max="10" name="qtd">
                                     <span class="input-number-increment">+</span>
                                 {% else %}
                                     {{ informacoes[1] }}
@@ -38,7 +42,7 @@
                                 </td>
                                 <td>
                                     <span class="input-number-decrement">–</span>
-                                    <input class="input-number" type="text" value="0" min="0" max="{{ informacoes[1] }}">
+                                    <input class="input-number" type="text" value="0" min="0" max="{{ informacoes[1] }}" name="qtd-retirada">
                                     <span class="input-number-increment">+</span>
                                 </td>
                             {% endif %}
@@ -48,13 +52,11 @@
             {% endfor %}
             </table>
             <div class="btn-footer">
-                <button class="btn btn-info  btn-lg btn-block mb-2">
+                <button class="btn btn-info  btn-lg btn-block mb-2" type="submit">
                     Confirmar
                 </button>
-                <a href="{{ url_for('redireciona', funcao=funcao) }}">
-                    <button class="btn btn-danger  btn-lg btn-block mb-2">
+                <a href="{{ url_for('redireciona', funcao=funcao) }}" class="btn btn-danger  btn-lg btn-block mb-2">
                         Voltar
-                    </button>
                 </a>
             </div>
         </form>
