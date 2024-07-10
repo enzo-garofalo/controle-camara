@@ -39,13 +39,20 @@ def funcionalidade():
 
 @app.route('/atualiza', methods=['POST', ])
 def atualiza():
+    # funcionalidade chegar
     codigos = request.form.getlist('cod')
     quatidades = request.form.getlist('qtd')
+    # funcionalidade retirar
     quatidades_retiradas = request.form.getlist('qtd-retirada')
-    
+    quatidades_originais = request.form.getlist('qtd-original')
     produtos = {}
-    for cod, qtd in zip(codigos, quatidades):
-        produtos[cod] = qtd
+    if len(quatidades_originais) == 0:
+        for cod, qtd in zip(codigos, quatidades):
+            produtos[cod] = qtd
+    else:
+        for cod, qtd_original, qtd_ret in zip(codigos, quatidades_originais, quatidades_retiradas):
+            produtos[cod] = int(qtd_original) - int(qtd_ret)
+
     
     update(produtos)
         

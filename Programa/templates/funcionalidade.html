@@ -33,6 +33,7 @@
                                     <input class="input-number" type="text" value="{{ informacoes[1] }}" min="0" max="10" name="qtd">
                                     <span class="input-number-increment">+</span>
                                 {% else %}
+                                    <input type="hidden" value="{{ informacoes[1] }}" name="qtd-original">
                                     {{ informacoes[1] }}
                                 {% endif %}
                             </td>
